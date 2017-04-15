@@ -34,7 +34,7 @@ namespace ProductsManager.Controllers
                 return Ok("Wrong login or password.You can see the list of products.");
             }
         }
-        [Route("login")]
+        [Route("logout")]
         [HttpGet]
         public IHttpActionResult LogOut()
         {
@@ -47,7 +47,10 @@ namespace ProductsManager.Controllers
         [HttpGet]
         public IHttpActionResult GetInfoAboutProducts()
         {
-            return Ok(list);
+            if (list.Count == 0)
+                return Ok("Market is empty! Please log in as manager and add products.");
+            else
+                return Ok(list);
         }
 
         [Route("products")]
@@ -90,7 +93,7 @@ namespace ProductsManager.Controllers
         }
         [Route("products")]
         [HttpPut]
-        public IHttpActionResult AddProduct(string type, int quantity,int price)
+        public IHttpActionResult AddProduct(string type, int quantity, int price)
         {
             bool t = false;
             if (manager_log)
