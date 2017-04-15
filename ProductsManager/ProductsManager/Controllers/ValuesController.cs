@@ -17,14 +17,14 @@ namespace ProductsManager.Controllers
 
         [Route("login")]
         [HttpPost]
-        public IHttpActionResult LogIn(User user)
+        public IHttpActionResult LogIn(string login, string password)
         {
-            if (user.password == buyer.password && user.login == buyer.login)
+            if (password == buyer.password && login == buyer.login)
             {
                 buyer_log = true;
                 return Ok("You are logegd in as buyer! You can see the list of products and buy something.");
             }
-            else if (user.password == manager.password && user.login == manager.login)
+            else if (password == manager.password && login == manager.login)
             {
                 manager_log = true;
                 return Ok("You are logged in as manager! You can add new products,remove some products,see list of products.");
@@ -33,6 +33,14 @@ namespace ProductsManager.Controllers
             {
                 return Ok("Wrong login or password.You can see the list of products.");
             }
+        }
+        [Route("login")]
+        [HttpGet]
+        public IHttpActionResult LogOut()
+        {
+            manager_log = false;
+            buyer_log = false;
+            return Ok("You are logged out!");
         }
 
         [Route("products")]
@@ -44,11 +52,11 @@ namespace ProductsManager.Controllers
 
         [Route("products")]
         [HttpPost]
-        public IHttpActionResult GetProductByName(Product p)
+        public IHttpActionResult GetProductByName(string type)
         {
             Product product = new Product();
             foreach (var m in list)
-                if (m.Type.Equals(p.Type))
+                if (m.Type.Equals(type))
                 {
                     product = m;
                     break;
@@ -82,23 +90,26 @@ namespace ProductsManager.Controllers
         }
         [Route("products")]
         [HttpPut]
-        public IHttpActionResult AddProduct(Product p)
+        public IHttpActionResult AddProduct(string type, int quantity,int price)
         {
             bool t = false;
             if (manager_log)
             {
                 foreach (var m in list)
                 {
-                    if (m.Type.Equals(p.Type))
+                    if (m.Type.Equals(type))
                     {
                         t = true;
-                        m.Quantity++;
+                        m.Quantity += quantity;
                         break;
                     }
                 }
                 if (!t)
                 {
-                    p.Quantity = 1;
+                    Product p = new Product();
+                    p.Type = type;
+                    p.Quantity = quantity;
+                    p.Price = price;
                     list.Add(p);
                 }
                 return Ok("Item added!");
@@ -108,6 +119,33 @@ namespace ProductsManager.Controllers
                 return Ok("Please log in as manager!");
             }
 
+        }
+
+        [Route("products/buy")]
+        [HttpPost]
+        public IHttpActionResult BuyProduct(string type, int quantity)
+        {
+            if (buyer_log)
+            {
+                foreach (var m in list)
+                {
+                    if (m.Type.Equals(type))
+                    {
+                        if (m.Quantity >= quantity)
+                        {
+                            m.Quantity -= quantity;
+                            return Ok("Thank You!");
+                        }
+                        else
+                        {
+                            return Ok("There are less items than you want to buy!");
+                        }
+                    }
+                }
+                return Ok("Sorry,the product doesn't exist!");
+            }
+            else
+                return Ok("Please log in as buyer");
         }
     }
 }
