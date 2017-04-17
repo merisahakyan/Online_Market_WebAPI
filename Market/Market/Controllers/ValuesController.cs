@@ -68,29 +68,36 @@ namespace Market.Controllers
 
         public IHttpActionResult PutProduct([FromUri] Product p)
         {
-            
-            bool t = false;
-            if (Market.manager_log)
+            if(ModelState.IsValid)
             {
-                foreach (var m in Market.list)
+                bool t = false;
+                if (Market.manager_log)
                 {
-                    if (m.Id.Equals(p.Id))
+                    foreach (var m in Market.list)
                     {
-                        t = true;
-                        m.Quantity += p.Quantity;
-                        break;
+                        if (m.Id.Equals(p.Id))
+                        {
+                            t = true;
+                            m.Quantity += p.Quantity;
+                            break;
+                        }
                     }
+                    if (!t)
+                    {
+                        Market.list.Add(p);
+                    }
+                    return Ok("Item added!");
                 }
-                if (!t)
+                else
                 {
-                    Market.list.Add(p);
+                    return Ok("Please log in as manager!");
                 }
-                return Ok("Item added!");
             }
             else
             {
-                return Ok("Please log in as manager!");
+                return BadRequest("Bad request");
             }
+            
 
         }
 
