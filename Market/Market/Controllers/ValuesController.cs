@@ -66,9 +66,9 @@ namespace Market.Controllers
         }
 
 
-        public IHttpActionResult PutProduct(string type, int id, int quantity, int price)
+        public IHttpActionResult PutProduct([FromUri] Product p)
         {
-            Product p = new Product { Id = id, Type = type, Quantity = quantity, Price = price };
+            
             bool t = false;
             if (Market.manager_log)
             {

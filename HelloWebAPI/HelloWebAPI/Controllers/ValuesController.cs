@@ -1,9 +1,12 @@
-﻿using System;
+﻿using HelloWebAPI.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.ModelBinding;
+using System.Web.Http.ValueProviders;
 
 namespace HelloWebAPI.Controllers
 {
@@ -21,12 +24,14 @@ namespace HelloWebAPI.Controllers
         {
             return id+quantity;
         }
-
+        public IHttpActionResult PostUser([FromUri]User user)
+        
+        {
+            return Ok(user);
+        }
         
         // POST api/values
-        public void Post([FromBody]string value)
-        {
-        }
+       
 
         // PUT api/values/5
         public void Put(int id, [FromBody]string value)

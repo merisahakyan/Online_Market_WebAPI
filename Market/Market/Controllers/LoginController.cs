@@ -10,14 +10,14 @@ namespace Market.Controllers
     public class LoginController:ApiController
     {
         
-        public IHttpActionResult PostLogIn(string login,string password)
+        public IHttpActionResult PostLogIn([FromUri] User user)
         {
-            if (password == Market.buyer.password && login == Market.buyer.login)
+            if (user.password == Market.buyer.password && user.login == Market.buyer.login)
             {
                 Market.buyer_log = true;
                 return Ok("You are logegd in as buyer! You can see the list of products and buy something.");
             }
-            else if (password == Market.manager.password && login == Market.manager.login)
+            else if (user.password == Market.manager.password && user.login == Market.manager.login)
             {
                 Market.manager_log = true;
                 return Ok("You are logged in as manager! You can add new products,remove some products,see list of products.");
