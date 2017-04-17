@@ -11,17 +11,21 @@ namespace HelloWebAPI.Controllers
     public class ValuesController : ApiController
     {
         // GET api/values
-        public IEnumerable<string> Get()
+        public int Get()
         {
-            return new string[] { "value1", "value2" };
+            return 0;
         }
 
         // GET api/values/5
-        public string Get(int id)
+        public int Get(int id)
         {
-            return "value";
+            return id;
         }
 
+        public string Get(int id, int quantity)
+        {
+            return $"{id}    {quantity}";
+        }
         // POST api/values
         public void Post([FromBody]string value)
         {

@@ -28,7 +28,7 @@ namespace Market
 
             config.Routes.MapHttpRoute(
                 name:"Buying",
-                routeTemplate:"api/Buy/{id}/{quantity}"
+                routeTemplate:"api/Buy/{id}/{quantity}",
                 defaults:new { quantity=RouteParameter.Optional}
                 
                 );
