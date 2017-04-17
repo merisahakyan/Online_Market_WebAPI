@@ -19,12 +19,15 @@ namespace HelloWebAPI
 
             // Web API routes
             config.MapHttpAttributeRoutes();
-
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
+                routeTemplate: "api/{controller}"
+              
+            );
+            config.Routes.MapHttpRoute(
+                name: "DefaultApi1",
                 routeTemplate: "api/{controller}/{id}/{quantity}",
-                defaults: new { id = RouteParameter.Optional,
-                quantity=RouteParameter.Optional}
+                defaults: new { quantity=RouteParameter.Optional}
             );
         }
     }

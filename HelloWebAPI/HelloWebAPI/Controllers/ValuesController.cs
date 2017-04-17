@@ -17,15 +17,12 @@ namespace HelloWebAPI.Controllers
         }
 
         // GET api/values/5
-        public int Get(int id)
+        public int Post(int id,int quantity=1)
         {
-            return id;
+            return id+quantity;
         }
 
-        public string Get(int id, int quantity)
-        {
-            return $"{id}    {quantity}";
-        }
+        
         // POST api/values
         public void Post([FromBody]string value)
         {
