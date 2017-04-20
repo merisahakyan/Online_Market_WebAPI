@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -39,8 +40,23 @@ namespace ImageDownloader.Controllers
                 images.Add(newimg);
             }
             return Ok(images);
+        }
+        public IHttpActionResult Post_Download(string imgurl, bool download )
+        {
+            if (download)
+            {
+                WebRequest requestPic = WebRequest.Create(imgurl);
 
+                WebResponse responsePic = requestPic.GetResponse();
 
+                Image webImage = Image.FromStream(responsePic.GetResponseStream());
+
+                webImage.Save("C:\\Users\\Dell\\Desktop\\" + "Image" + ".jpg");
+                return Ok("Image saved!");
+            }
+            else
+                return
+                    Ok("Image does'n save!");
         }
     }
 }
